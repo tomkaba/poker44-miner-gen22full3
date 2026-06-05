@@ -48,6 +48,8 @@ def _runtime_implementation_files(repo_root: Path) -> List[Path]:
         repo_root / "poker44" / "base" / "neuron.py",
         repo_root / "poker44" / "gen20_hybrid_model.py",
         repo_root / "poker44" / "miner_heuristics.py",
+        repo_root / "poker44_ml" / "__init__.py",
+        repo_root / "poker44_ml" / "features.py",
         repo_root / "poker44" / "utils" / "config.py",
         repo_root / "poker44" / "utils" / "misc.py",
         repo_root / "poker44" / "utils" / "model_manifest.py",

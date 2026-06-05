@@ -1,6 +1,13 @@
 import json
 import subprocess
 
+
+def _git_rev_parse(revision):
+    try:
+        return subprocess.check_output(['git', 'rev-parse', revision], stderr=subprocess.DEVNULL).decode().strip()
+    except Exception:
+        return None
+
 def get_hash():
     with open('models/model_manifest.json', 'r') as f:
         manifest = json.load(f)
@@ -16,7 +23,7 @@ def get_hash():
             sha256.update(f.read())
     return sha256.hexdigest()
 
-head = subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode().strip()
+head = _git_rev_parse('HEAD')
 computed_hash = get_hash()
 
 with open('models/model_manifest.json', 'r') as f:
@@ -27,7 +34,7 @@ if manifest['implementation_sha256'] != computed_hash:
     manifest['implementation_sha256'] = computed_hash
     changed = True
 
-if manifest['repo_commit'] != head:
+if head is not None and manifest['repo_commit'] != head:
     manifest['repo_commit'] = head
     changed = True
 

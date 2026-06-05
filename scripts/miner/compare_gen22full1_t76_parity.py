@@ -43,7 +43,6 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Compare standalone gen22 vote101 evaluator with miner runtime output")
     parser.add_argument("--log", default="/home/tk/training_gen22/miner_221.log")
     parser.add_argument("--checkpoint", default=str(REPO_ROOT / "weights" / "gen22_hybrid_full_0.0595.pt"))
-    parser.add_argument("--v1-repo", default="/home/tk/others/Poker44_v1")
     parser.add_argument("--minichunk-threshold", type=float, default=0.0595)
     parser.add_argument("--votes-per-parent", type=int, default=101)
     parser.add_argument("--positive-votes-required", type=int, default=66)
@@ -126,8 +125,9 @@ def _chunk_seed(chunk: list[dict[str, Any]], runtime_seed: int) -> int:
     return int.from_bytes(digest, "big") ^ int(runtime_seed)
 
 
-def _load_chunk_features(v1_repo: Path):
-    sys.path.insert(0, str(v1_repo))
+def _load_chunk_features():
+    if str(REPO_ROOT) not in sys.path:
+        sys.path.insert(0, str(REPO_ROOT))
     from poker44_ml.features import chunk_features  # type: ignore
 
     return chunk_features
@@ -234,7 +234,7 @@ def main() -> int:
         model, checkpoint_args = _load_model(Path(args.checkpoint).expanduser().resolve())
         max_hands = int(checkpoint_args.get("max_hands", 8))
         max_actions = int(checkpoint_args.get("max_actions", 32))
-        chunk_features = _load_chunk_features(Path(args.v1_repo).expanduser().resolve())
+        chunk_features = _load_chunk_features()
 
     log_entries = [json.loads(line) for line in Path(args.log).expanduser().resolve().read_text().splitlines() if line.strip()]
     if args.task_limit > 0:

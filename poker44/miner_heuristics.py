@@ -17,7 +17,7 @@ from poker44.gen20_hybrid_model import Gen20HybridV1
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 RUNTIME_MODEL_PATH = REPO_ROOT / "weights" / "gen22_hybrid_full_0.0595.pt"
-DEFAULT_V1_REPO = Path("/home/tk/others/Poker44_v1")
+LOCAL_FEATURES_PACKAGE = REPO_ROOT / "poker44_ml"
 DEFAULT_MIN_HANDS = 4
 DEFAULT_MAX_HANDS = 8
 DEFAULT_VOTES_PER_PARENT = 101
@@ -109,9 +109,9 @@ def _load_chunk_features() -> Optional[Callable[[List[dict]], Dict[str, float]]]
     if _CHUNK_FEATURE_ERROR is not None:
         return None
 
-    v1_repo = Path(os.getenv("POKER44_V1_REPO", str(DEFAULT_V1_REPO))).expanduser().resolve()
     try:
-        sys.path.insert(0, str(v1_repo))
+        if str(REPO_ROOT) not in sys.path:
+            sys.path.insert(0, str(REPO_ROOT))
         from poker44_ml.features import chunk_features  # type: ignore
 
         _CHUNK_FEATURES = chunk_features
@@ -323,7 +323,8 @@ def get_chunk_scorer_startup_check(scorer: str) -> Dict[str, object]:
         "shape": _runtime_shape(),
         "vote101": _vote101_config(),
         "decision_threshold": _parent_decision_threshold(),
-        "v1_repo": str(Path(os.getenv("POKER44_V1_REPO", str(DEFAULT_V1_REPO))).expanduser()),
+        "features_package": str(LOCAL_FEATURES_PACKAGE),
+        "features_package_exists": LOCAL_FEATURES_PACKAGE.exists(),
     }
 
     ok = _load_runtime_model()

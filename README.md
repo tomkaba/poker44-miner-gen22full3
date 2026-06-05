@@ -4,6 +4,8 @@ Minimal release repository for Poker44 miner runtime scoring.
 
 This repository is a standalone miner variant prepared for production rollout with the gen22_hybrid_full_0.0595 checkpoint, vote101 runtime aggregation, a minichunk threshold of 0.0595, and a parent cutoff of 66/101.
 
+The release bundles its own dense feature extractor in `poker44_ml/features.py`; it does not require `/home/tk/others/Poker44_v1` or any other external repository at runtime.
+
 ## Quick start
 
 ```bash
@@ -33,6 +35,7 @@ or legacy wrapper:
 - Scorer entrypoint: poker44/miner_heuristics.py
 - Entry point: neurons/miner.py
 - Runtime model: weights/gen22_hybrid_full_0.0595.pt
+- Bundled dense features: poker44_ml/features.py
 
 Base release lineage: gen20tens1 with the runtime replaced by gen22_hybrid_full_0.0595 using deterministic vote101 aggregation and a 66/101 cutoff.
 
@@ -45,6 +48,8 @@ Manifest implementation SHA256 is computed from:
 - poker44/base/miner.py
 - poker44/base/neuron.py
 - poker44/miner_heuristics.py
+- poker44_ml/__init__.py
+- poker44_ml/features.py
 - poker44/utils/config.py
 - poker44/utils/misc.py
 - poker44/utils/model_manifest.py
