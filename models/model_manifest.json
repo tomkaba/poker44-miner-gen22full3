@@ -1,0 +1,30 @@
+{
+    "schema_version": "1",
+    "open_source": true,
+    "model_name": "gen22full3",
+    "model_version": "22.1",
+    "framework": "pytorch-checkpoint",
+    "license": "MIT",
+    "repo_url": "https://github.com/tomkaba/poker44-miner-gen22full3",
+    "repo_commit": "PENDING_GIT_COMMIT",
+    "inference_mode": "local",
+    "training_data_statement": "Uses the gen22_hybrid_full_0.0595 checkpoint with vote101 runtime aggregation, minichunk threshold 0.0595, and parent cutoff 66/101.",
+    "data_attestation": "This miner does not train on validator-private human data.",
+    "private_data_attestation": "This miner does not train on validator-private human data.",
+    "implementation_files": [
+        "weights/gen22_hybrid_full_0.0595.pt",
+        "neurons/miner.py",
+        "start_miner.sh",
+        "poker44/__init__.py",
+        "poker44/base/miner.py",
+        "poker44/base/neuron.py",
+        "poker44/gen20_hybrid_model.py",
+        "poker44/miner_heuristics.py",
+        "poker44/utils/config.py",
+        "poker44/utils/misc.py",
+        "poker44/utils/model_manifest.py",
+        "poker44/validator/synapse.py"
+    ],
+    "implementation_sha256": "c43781b4fa29ff1b5321b5efcb5952904b63ac7f2fe7dcdb1ca57596b63a1093",
+    "notes": "gen22 hybrid full checkpoint scored with deterministic vote101 sampling, minichunk threshold 0.0595, and parent cutoff 66/101."
+}
